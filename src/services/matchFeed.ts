@@ -4,6 +4,8 @@ import { getEvents } from "./matchService";
 
 export interface MatchFeedCallbacks {
   onMinute: (minute: number) => void;
+  /** Called every animation frame with the fractional current time (float). */
+  onTime?: (time: number) => void;
   onEvent?: (event: MatchEvent) => void;
 }
 
@@ -13,14 +15,15 @@ export interface MatchFeed {
   snapTo(minute: number): void;
 }
 
+const MINUTES_PER_MS = 1 / APP_CONFIG.TICK_MS;
+
 export class ScriptedMatchFeed implements MatchFeed {
-  private currentMinute: number;
-  private intervalId: ReturnType<typeof setInterval> | null = null;
+  private currentTime: number;
   private events: MatchEvent[] = [];
   private firedEvents = new Set<string>();
 
   constructor(startMinute = APP_CONFIG.START_MINUTE) {
-    this.currentMinute = startMinute;
+    this.currentTime = startMinute;
   }
 
   async init(): Promise<void> {
@@ -28,31 +31,54 @@ export class ScriptedMatchFeed implements MatchFeed {
   }
 
   getCurrentMinute(): number {
-    return this.currentMinute;
+    return Math.floor(this.currentTime);
   }
 
   snapTo(minute: number): void {
-    this.currentMinute = minute;
+    this.currentTime = minute;
   }
 
   subscribe(callbacks: MatchFeedCallbacks): () => void {
-    callbacks.onMinute(this.currentMinute);
+    let lastTs: number | null = null;
+    let rafId: number;
+    let active = true;
 
-    this.intervalId = setInterval(() => {
-      if (this.currentMinute >= APP_CONFIG.MAX_MINUTE) return;
+    const loop = (ts: number) => {
+      if (!active) return;
 
-      this.currentMinute += 1;
-      callbacks.onMinute(this.currentMinute);
+      if (lastTs !== null && this.currentTime < APP_CONFIG.MAX_MINUTE) {
+        const prevFloor = Math.floor(this.currentTime);
+        const delta = ts - lastTs;
+        this.currentTime = Math.min(
+          APP_CONFIG.MAX_MINUTE,
+          this.currentTime + delta * MINUTES_PER_MS,
+        );
+        const newFloor = Math.floor(this.currentTime);
 
-      const event = this.events.find((e) => e.minute === this.currentMinute);
-      if (event && !this.firedEvents.has(event.id)) {
-        this.firedEvents.add(event.id);
-        callbacks.onEvent?.(event);
+        // Fire onMinute for every integer boundary crossed (handles frame drops)
+        for (let m = prevFloor + 1; m <= newFloor; m++) {
+          callbacks.onMinute(m);
+          const event = this.events.find((e) => e.minute === m);
+          if (event && !this.firedEvents.has(event.id)) {
+            this.firedEvents.add(event.id);
+            callbacks.onEvent?.(event);
+          }
+        }
       }
-    }, APP_CONFIG.TICK_MS);
+
+      lastTs = ts;
+      callbacks.onTime?.(this.currentTime);
+      rafId = requestAnimationFrame(loop);
+    };
+
+    // Emit current state immediately
+    callbacks.onMinute(Math.floor(this.currentTime));
+    callbacks.onTime?.(this.currentTime);
+    rafId = requestAnimationFrame(loop);
 
     return () => {
-      if (this.intervalId) clearInterval(this.intervalId);
+      active = false;
+      cancelAnimationFrame(rafId);
     };
   }
 }

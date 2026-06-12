@@ -1,4 +1,10 @@
-import type { MatchData, MatchEvent, MomentumPoint, ZoneId } from "@/lib/types";
+import type {
+  MatchData,
+  MatchEvent,
+  MomentumPoint,
+  TeamSide,
+  ZoneId,
+} from "@/lib/types";
 
 export const MATCH_DATA: MatchData = {
   id: "ned-esp-wk2026",
@@ -22,48 +28,61 @@ const ZONE_ROTATION: ZoneId[] = [
   "rechts_verdediging",
 ];
 
-function wave(minute: number, offset: number, amplitude: number): number {
-  return Math.round(
-    50 + amplitude * Math.sin((minute + offset) * 0.35) + amplitude * 0.3,
-  );
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(max, Math.max(min, value));
 }
+
+// Twee onafhankelijke golven met verschillende frequentie en fase, zodat de
+// aanvalsdruk van NED en ESP een eigen verloop heeft (geen spiegelbeeld).
+function homeWave(minute: number): number {
+  return 40 + 22 * Math.sin(minute * 0.18 + 0.4) + 9 * Math.sin(minute * 0.55 + 1);
+}
+
+function awayWave(minute: number): number {
+  return 42 + 19 * Math.sin(minute * 0.23 + 2.1) + 8 * Math.sin(minute * 0.48 + 0.3);
+}
+
+interface MomentumBoost {
+  home?: number;
+  away?: number;
+  zone: ZoneId;
+}
+
+// Extra druk rond belangrijke gebeurtenissen, voor het scorende/drukkende team.
+const EVENT_BOOSTS: Record<number, MomentumBoost> = {
+  12: { away: 34, zone: "centrum_aanval" },
+  23: { home: 46, zone: "centrum_aanval" },
+  28: { away: 16, zone: "rechts_midden" },
+  36: { home: 30, zone: "centrum_aanval" },
+  44: { away: 28, zone: "rechts_aanval" },
+  53: { away: 36, zone: "centrum_midden" },
+  61: { home: 30, zone: "links_aanval" },
+  67: { home: 50, zone: "centrum_aanval" },
+  78: { home: 16, zone: "centrum_midden" },
+  85: { away: 42, zone: "centrum_aanval" },
+};
 
 function buildMomentumPoints(): MomentumPoint[] {
   const points: MomentumPoint[] = [];
-  const spikes: Record<number, { team: "home" | "away"; value: number; zone: ZoneId }> = {
-    12: { team: "away", value: 88, zone: "centrum_aanval" },
-    23: { team: "home", value: 95, zone: "centrum_aanval" },
-    28: { team: "away", value: 72, zone: "rechts_midden" },
-    36: { team: "home", value: 82, zone: "centrum_aanval" },
-    44: { team: "away", value: 78, zone: "rechts_aanval" },
-    53: { team: "away", value: 85, zone: "centrum_midden" },
-    61: { team: "home", value: 80, zone: "links_aanval" },
-    67: { team: "home", value: 98, zone: "centrum_aanval" },
-    78: { team: "home", value: 65, zone: "centrum_midden" },
-    85: { team: "away", value: 90, zone: "centrum_aanval" },
-  };
 
   for (let minute = 0; minute <= 90; minute++) {
-    const spike = spikes[minute];
-    if (spike) {
-      points.push({
-        minute,
-        pressureValue: spike.value,
-        dominantTeam: spike.team,
-        activeZone: spike.zone,
-        eventId: `evt-${minute}`,
-      });
-      continue;
-    }
+    const boost = EVENT_BOOSTS[minute];
+    const homePressure = Math.round(
+      clamp(homeWave(minute) + (boost?.home ?? 0), 12, 98),
+    );
+    const awayPressure = Math.round(
+      clamp(awayWave(minute) + (boost?.away ?? 0), 12, 98),
+    );
+    const dominantTeam: TeamSide = homePressure >= awayPressure ? "home" : "away";
 
-    const homeLean = minute < 40 || (minute > 55 && minute < 75);
-    const dominantTeam = homeLean ? "home" : minute % 3 === 0 ? "away" : "home";
-    const pressureValue = wave(minute, homeLean ? 2 : 5, homeLean ? 28 : 22);
     points.push({
       minute,
-      pressureValue: Math.min(100, Math.max(20, pressureValue)),
+      homePressure,
+      awayPressure,
+      pressureValue: Math.max(homePressure, awayPressure),
       dominantTeam,
-      activeZone: ZONE_ROTATION[minute % ZONE_ROTATION.length],
+      activeZone: boost?.zone ?? ZONE_ROTATION[minute % ZONE_ROTATION.length],
+      eventId: boost ? `evt-${minute}` : undefined,
     });
   }
 

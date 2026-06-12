@@ -1,5 +1,5 @@
 export const APP_CONFIG = {
-  TICK_MS: 4000,
+  TICK_MS: 2000,
   START_MINUTE: 31,
   MAX_MINUTE: 90,
   HEATMAP_TRAIL_MINUTES: 5,
@@ -11,4 +11,5 @@ export const APP_CONFIG = {
 export const STORAGE_KEYS = {
   USER_PROFILE: "tactisch-momentum-profile",
   BONUS_POINTS: "tactisch-momentum-bonus",
+  PREDICTIONS: "pitchpeek-predictions",
 } as const;
