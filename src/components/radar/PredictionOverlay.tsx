@@ -30,11 +30,12 @@ export function PredictionOverlay({
 
   return (
     <div className="pointer-events-none absolute inset-x-0 top-0 z-20 flex flex-col items-center gap-2 p-3">
-      <div className="rounded-xl bg-slate-950/80 px-4 py-2 text-center backdrop-blur-sm">
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+      {/* Glass info card */}
+      <div className="glass-overlay rounded-2xl px-5 py-3 text-center">
+        <p className="text-[10px] font-bold uppercase tracking-widest text-white/35">
           Voorspel waar de bal valt
         </p>
-        <p className="text-sm font-bold text-slate-100">
+        <p className="mt-0.5 text-sm font-bold text-white">
           {typeLabel} {teamLabel}
         </p>
       </div>
@@ -47,7 +48,7 @@ export function PredictionOverlay({
               cy={20}
               r={18}
               fill="none"
-              stroke="#1e293b"
+              stroke="rgba(255,255,255,0.08)"
               strokeWidth={3}
             />
             <circle
@@ -60,26 +61,32 @@ export function PredictionOverlay({
               strokeDasharray={circumference}
               strokeDashoffset={circumference * (1 - progress)}
               strokeLinecap="round"
-              style={{ transition: "stroke-dashoffset 1s linear" }}
+              style={{
+                transition: "stroke-dashoffset 1s linear",
+                filter: "drop-shadow(0 0 4px rgba(34,211,238,0.8))",
+              }}
             />
           </svg>
-          <span className="absolute text-sm font-bold text-cyan-400">
+          <span className="absolute tabular-nums text-sm font-black text-cyan-400" style={{ textShadow: "0 0 8px rgba(34,211,238,0.6)" }}>
             {prediction.timeLeft}
           </span>
         </div>
       )}
 
       {prediction.phase === "selected" && (
-        <p className="text-xs font-medium text-cyan-400">
+        <p className="rounded-full bg-cyan-500/10 px-3 py-1 text-xs font-bold tracking-wide text-cyan-400 ring-1 ring-cyan-500/25">
           Voorspelling opgeslagen
         </p>
       )}
 
       {prediction.phase === "resolved" && (
         <p
-          className={`text-sm font-bold ${
-            prediction.wasCorrect ? "text-emerald-400" : "text-red-400"
+          className={`rounded-full px-4 py-1.5 text-sm font-black ring-1 ${
+            prediction.wasCorrect
+              ? "bg-emerald-500/10 text-emerald-400 ring-emerald-500/30"
+              : "bg-red-500/10 text-red-400 ring-red-500/30"
           }`}
+          style={prediction.wasCorrect ? { textShadow: "0 0 10px rgba(52,211,153,0.6)" } : undefined}
         >
           {prediction.wasCorrect
             ? `+${event.prediction?.bonusPoints ?? 25} punten!`

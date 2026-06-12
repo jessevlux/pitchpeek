@@ -1,15 +1,12 @@
 "use client";
 
-import { useState } from "react";
 import { useMatch } from "@/context/MatchContext";
 import { MatchHeader } from "./MatchHeader";
 import { RadarField } from "./radar/RadarField";
-import { PouleStrip } from "./poule/PouleStrip";
-import { PouleSheet } from "./poule/PouleSheet";
+import { LivePouleUpdate } from "./live/LivePouleUpdate";
 import { MomentumTimeline } from "./timeline/MomentumTimeline";
 
 export function MatchScreen() {
-  const [pouleOpen, setPouleOpen] = useState(false);
   const { loading } = useMatch();
 
   if (loading) {
@@ -25,9 +22,8 @@ export function MatchScreen() {
     <div className="flex h-full flex-col">
       <MatchHeader />
       <RadarField />
-      <PouleStrip onOpen={() => setPouleOpen(true)} />
+      <LivePouleUpdate />
       <MomentumTimeline />
-      <PouleSheet open={pouleOpen} onClose={() => setPouleOpen(false)} />
     </div>
   );
 }

@@ -1,29 +1,39 @@
 "use client";
 
-import { useCallback, useRef } from "react";
-import { APP_CONFIG } from "@/lib/config";
+import { useCallback, useRef, useState } from "react";
 
 interface TimelineScrubberProps {
   viewMinute: number;
+  maxMinute: number;
+  insetX: number;
+  isFollowingLive: boolean;
   onScrub: (minute: number) => void;
 }
 
 export function TimelineScrubber({
   viewMinute,
+  maxMinute,
+  insetX,
+  isFollowingLive,
   onScrub,
 }: TimelineScrubberProps) {
   const ref = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const minuteFromX = useCallback(
     (clientX: number) => {
       const el = ref.current;
       if (!el) return viewMinute;
       const rect = el.getBoundingClientRect();
-      const ratio = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
-      return Math.round(ratio * APP_CONFIG.MAX_MINUTE);
+      const usable = rect.width - insetX * 2;
+      const ratio = Math.max(
+        0,
+        Math.min(1, (clientX - rect.left - insetX) / usable),
+      );
+      return Math.round(ratio * maxMinute);
     },
-    [viewMinute],
+    [viewMinute, maxMinute, insetX],
   );
 
   const handlePointer = useCallback(
@@ -36,7 +46,10 @@ export function TimelineScrubber({
     [minuteFromX, onScrub],
   );
 
-  const playheadX = (viewMinute / APP_CONFIG.MAX_MINUTE) * 100;
+  const fraction = Math.max(0, Math.min(1, viewMinute / Math.max(maxMinute, 1)));
+  const left = `calc(${insetX}px + ${fraction} * (100% - ${insetX * 2}px))`;
+  const transition =
+    isFollowingLive && !isDragging ? `left 250ms linear` : "none";
 
   return (
     <div
@@ -44,17 +57,30 @@ export function TimelineScrubber({
       className="absolute inset-0 z-10 touch-none"
       onPointerDown={(e) => {
         e.currentTarget.setPointerCapture(e.pointerId);
+        setIsDragging(true);
         handlePointer(e.clientX);
       }}
       onPointerMove={(e) => {
         if (e.buttons > 0) handlePointer(e.clientX);
       }}
+      onPointerUp={() => setIsDragging(false)}
+      onPointerCancel={() => setIsDragging(false)}
     >
+      {/* Playhead line */}
       <div
-        className="pointer-events-none absolute top-0 bottom-0 w-0.5 bg-cyan-400"
-        style={{ left: `${playheadX}%` }}
+        className="pointer-events-none absolute top-0 bottom-0 w-px"
+        style={{
+          left,
+          transition,
+          background: "rgba(34,211,238,0.7)",
+          boxShadow: "0 0 6px 2px rgba(34,211,238,0.35)",
+        }}
       >
-        <div className="absolute -top-1 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-400 shadow-lg shadow-cyan-500/50" />
+        {/* Playhead knob */}
+        <div
+          className="absolute -top-0.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-400"
+          style={{ boxShadow: "0 0 8px 3px rgba(34,211,238,0.6)" }}
+        />
       </div>
     </div>
   );

@@ -36,22 +36,23 @@ function ProfileForm({
   const [color, setColor] = useState(initialColor);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-slate-400">
+        <label className="mb-2 block text-[10px] font-bold uppercase tracking-widest text-white/30">
           Naam
         </label>
         <input
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full rounded-xl bg-slate-800 px-4 py-3 text-slate-100 outline-none ring-1 ring-slate-700 focus:ring-cyan-500"
+          className="w-full rounded-xl bg-white/[0.06] px-4 py-3.5 text-sm font-medium text-white outline-none ring-1 ring-white/10 placeholder:text-white/20 focus:ring-cyan-500/50"
           maxLength={20}
+          placeholder="Jouw naam..."
         />
       </div>
 
       <div>
-        <label className="mb-2 block text-xs font-medium uppercase tracking-wide text-slate-400">
+        <label className="mb-3 block text-[10px] font-bold uppercase tracking-widest text-white/30">
           Avatar kleur
         </label>
         <div className="flex flex-wrap gap-3">
@@ -60,10 +61,10 @@ function ProfileForm({
               key={c}
               type="button"
               onClick={() => setColor(c)}
-              className={`h-10 w-10 rounded-full transition-all duration-200 active:scale-95 ${
+              className={`h-10 w-10 rounded-full transition-all duration-200 active:scale-90 ${
                 color === c
-                  ? "ring-2 ring-cyan-400 ring-offset-2 ring-offset-slate-900"
-                  : ""
+                  ? "ring-2 ring-white ring-offset-2 ring-offset-transparent"
+                  : "opacity-60"
               }`}
               style={{ backgroundColor: c }}
             />
@@ -76,14 +77,14 @@ function ProfileForm({
         onClick={() => {
           if (name.trim()) onSave(name.trim(), color);
         }}
-        className="w-full rounded-xl bg-cyan-500 py-3 font-bold text-slate-950 transition-all duration-200 active:scale-95"
+        className="w-full rounded-xl bg-white py-3.5 text-sm font-black text-black shadow-[0_0_20px_rgba(255,255,255,0.15)] transition-all duration-200 active:scale-[0.97] active:opacity-80"
       >
         Opslaan
       </button>
       <button
         type="button"
         onClick={onClose}
-        className="w-full py-2 text-sm text-slate-400"
+        className="w-full py-2 text-xs font-semibold uppercase tracking-widest text-white/25"
       >
         Annuleren
       </button>
