@@ -13,7 +13,7 @@ export function LivePouleUpdate() {
   const isPending =
     pred.phase === "open" || pred.phase === "selected";
 
-  let content: { text: string; sub?: string; color: string; glow?: string } | null = null;
+  let content: { text: string; sub?: string; highlight?: boolean } | null = null;
 
   if (isPending && pred.event) {
     content = {
@@ -21,20 +21,17 @@ export function LivePouleUpdate() {
       sub: pred.selectedZone
         ? "Wachten op uitkomst..."
         : "Tik een zone op het veld",
-      color: "text-amber-400",
+      highlight: !!pred.selectedZone,
     };
   } else if (pred.phase === "resolved" && pred.event) {
     content = pred.wasCorrect
       ? {
           text: `+${pred.event.prediction?.bonusPoints ?? 25} punten`,
           sub: pred.event.label,
-          color: "text-emerald-400",
-          glow: "rgba(52,211,153,0.15)",
         }
       : {
           text: "Mis",
           sub: pred.event.label,
-          color: "text-red-400",
         };
   } else if (lastPrediction) {
     content =
@@ -42,31 +39,26 @@ export function LivePouleUpdate() {
         ? {
             text: `+${lastPrediction.points} punten`,
             sub: lastPrediction.label,
-            color: "text-emerald-400",
-            glow: "rgba(52,211,153,0.12)",
           }
         : {
             text: "Mis",
             sub: lastPrediction.label,
-            color: "text-red-400",
           };
   } else {
     content = {
       text: "Klaar voor je eerste voorspelling",
       sub: "Tik een zone bij de volgende spelhervatting",
-      color: "text-white/40",
     };
   }
 
   return (
     <Link href="/poule" className="mx-4 mt-3 block shrink-0">
       <motion.div
-        className="glass flex items-center justify-between rounded-2xl px-5 py-3.5 transition-all duration-200 active:scale-[0.98] active:opacity-80"
-        style={content.glow ? { boxShadow: `0 0 20px ${content.glow}` } : undefined}
+        className="flex items-center justify-between rounded-xl bg-neutral-900 px-5 py-3.5 transition-opacity active:opacity-80"
         layout
       >
         <div className="min-w-0">
-          <p className="text-[9px] font-bold uppercase tracking-widest text-white/25">
+          <p className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
             PitchPeek
           </p>
           <AnimatePresence mode="wait">
@@ -77,16 +69,16 @@ export function LivePouleUpdate() {
               exit={{ opacity: 0, y: -4 }}
               transition={{ duration: 0.2 }}
             >
-              <p className={`tabular-nums text-sm font-black ${content.color}`}>
+              <p className={`tabular-nums text-sm font-bold ${content.highlight ? "text-emerald-400" : "text-white"}`}>
                 {content.text}
               </p>
               {content.sub && (
-                <p className="truncate text-xs text-white/30">{content.sub}</p>
+                <p className="truncate text-xs text-neutral-500">{content.sub}</p>
               )}
             </motion.div>
           </AnimatePresence>
         </div>
-        <ChevronRight size={16} className="ml-3 shrink-0 text-white/20" />
+        <ChevronRight size={16} className="ml-3 shrink-0 text-neutral-600" />
       </motion.div>
     </Link>
   );

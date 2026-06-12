@@ -6,7 +6,7 @@ interface BadgeGridProps {
 }
 
 function BadgeIcon({ icon, unlocked }: { icon: string; unlocked: boolean }) {
-  const cls = `${unlocked ? "text-cyan-400" : "text-white/15"}`;
+  const cls = unlocked ? "text-emerald-400" : "text-neutral-700";
   const size = 28;
 
   if (icon === "trophy") return <Trophy size={size} className={cls} />;
@@ -21,17 +21,15 @@ export function BadgeGrid({ badges }: BadgeGridProps) {
       {badges.map((badge) => (
         <div
           key={badge.id}
-          className={`glass flex flex-col items-center rounded-2xl px-3 py-5 text-center transition-all duration-300 ${
-            badge.unlocked
-              ? "neon-cyan ring-1 ring-cyan-400/25"
-              : "opacity-35"
+          className={`flex flex-col items-center rounded-xl bg-neutral-900 px-3 py-5 text-center ${
+            badge.unlocked ? "border border-emerald-400/30" : "opacity-40"
           }`}
         >
           <BadgeIcon icon={badge.icon} unlocked={badge.unlocked} />
-          <p className="mt-3 text-[11px] font-black leading-tight text-white">
+          <p className="mt-3 text-[11px] font-bold leading-tight text-white">
             {badge.label}
           </p>
-          <p className="mt-1 text-[9px] leading-tight text-white/30">
+          <p className="mt-1 text-[9px] leading-tight text-neutral-500">
             {badge.description}
           </p>
         </div>

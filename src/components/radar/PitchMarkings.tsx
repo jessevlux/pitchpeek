@@ -4,13 +4,12 @@ const { width, height } = PITCH_DIMENSIONS;
 const cx = width / 2;
 const cy = height / 2;
 
-const LINE = "rgba(255,255,255,0.12)";
-const LINE_THIN = "rgba(255,255,255,0.07)";
+const LINE = "rgba(255,255,255,0.15)";
+const LINE_THIN = "rgba(255,255,255,0.08)";
 
 export function PitchMarkings() {
   return (
     <g className="pitch-markings">
-      {/* Outer boundary */}
       <rect
         x={4}
         y={4}
@@ -18,10 +17,9 @@ export function PitchMarkings() {
         height={height - 8}
         fill="none"
         stroke={LINE}
-        strokeWidth={1.5}
+        strokeWidth={1}
         rx={4}
       />
-      {/* Half-way line */}
       <line
         x1={4}
         y1={cy}
@@ -30,7 +28,6 @@ export function PitchMarkings() {
         stroke={LINE_THIN}
         strokeWidth={1}
       />
-      {/* Centre circle */}
       <circle
         cx={cx}
         cy={cy}
@@ -39,9 +36,7 @@ export function PitchMarkings() {
         stroke={LINE_THIN}
         strokeWidth={1}
       />
-      {/* Centre dot */}
       <circle cx={cx} cy={cy} r={3} fill={LINE} />
-      {/* Top penalty area */}
       <rect
         x={cx - 55}
         y={4}
@@ -51,7 +46,6 @@ export function PitchMarkings() {
         stroke={LINE_THIN}
         strokeWidth={1}
       />
-      {/* Bottom penalty area */}
       <rect
         x={cx - 55}
         y={height - 74}

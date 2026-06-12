@@ -66,21 +66,11 @@ export function TimelineScrubber({
       onPointerUp={() => setIsDragging(false)}
       onPointerCancel={() => setIsDragging(false)}
     >
-      {/* Playhead line */}
       <div
-        className="pointer-events-none absolute top-0 bottom-0 w-px"
-        style={{
-          left,
-          transition,
-          background: "rgba(34,211,238,0.7)",
-          boxShadow: "0 0 6px 2px rgba(34,211,238,0.35)",
-        }}
+        className="pointer-events-none absolute top-0 bottom-0 w-px bg-emerald-400"
+        style={{ left, transition }}
       >
-        {/* Playhead knob */}
-        <div
-          className="absolute -top-0.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-cyan-400"
-          style={{ boxShadow: "0 0 8px 3px rgba(34,211,238,0.6)" }}
-        />
+        <div className="absolute -top-0.5 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full bg-emerald-400" />
       </div>
     </div>
   );

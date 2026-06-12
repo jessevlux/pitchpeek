@@ -30,16 +30,13 @@ export function Leaderboard() {
       {standings.map((member) => (
         <div
           key={member.userId}
-          className={`glass flex items-center justify-between rounded-2xl px-4 py-3.5 transition-all duration-300 ${
-            member.isCurrentUser
-              ? "neon-cyan ring-1 ring-cyan-400/30"
-              : ""
+          className={`flex items-center justify-between rounded-xl bg-neutral-900 px-4 py-3.5 ${
+            member.isCurrentUser ? "border border-emerald-400/40" : ""
           }`}
         >
           <div className="flex items-center gap-3">
-            {/* Rank circle */}
             <span
-              className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-black text-black"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-sm font-bold text-black"
               style={{ backgroundColor: member.avatarColor }}
             >
               {member.rank}
@@ -49,7 +46,7 @@ export function Leaderboard() {
                 {member.userName}
               </span>
               {member.isCurrentUser && (
-                <span className="ml-1.5 text-[10px] font-bold uppercase tracking-widest text-cyan-400">
+                <span className="ml-1.5 text-xs font-semibold uppercase tracking-widest text-emerald-400">
                   jij
                 </span>
               )}
@@ -61,7 +58,7 @@ export function Leaderboard() {
                 initial={{ opacity: 0, y: delta === "up" ? 4 : -4 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
-                className={delta === "up" ? "text-emerald-400" : "text-red-400"}
+                className="text-neutral-400"
               >
                 {delta === "up" ? (
                   <TrendingUp size={14} />
@@ -70,10 +67,10 @@ export function Leaderboard() {
                 )}
               </motion.span>
             )}
-            <span className="tabular-nums text-base font-black text-white">
+            <span className="tabular-nums text-base font-bold text-white">
               {member.points}
             </span>
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-white/25">
+            <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
               pnt
             </span>
           </div>

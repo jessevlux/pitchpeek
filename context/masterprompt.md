@@ -31,7 +31,7 @@ Masterprompt
 
 # 4 De Datastructuur (TypeScript Interfaces)
 
-Om het concept van 'Het Tactische Momentum' goed te simuleren, moet je de data opdelen in drie logische blokken. Je vraagt de AI om deze structuur in TypeScript uit te werken.
+Om het concept van 'PitchPeek' goed te simuleren, moet je de data opdelen in drie logische blokken. Je vraagt de AI om deze structuur in TypeScript uit te werken.
 
 **A. Wedstrijdcontext (MatchData)** Dit is de algemene informatie die bovenin het scherm staat. Deze data verandert tijdens de test niet continu, maar vormt de basis.
 
@@ -76,4 +76,3 @@ Je kunt de volgende interacties direct aan je AI doorgeven. Dit zorgt ervoor dat
 - **Conditie:** Het datapunt in de JSON data moet een specifieke gebeurtenis bevatten.
 - **Onder de motorkap (State):** De variabele activeEvent wordt gevuld met de gegevens van dat moment.
 - **Visuele feedback:** De pop-up wordt zichtbaar op het scherm. Dit toont heel kort wie er bijvoorbeeld scoorde. Zodra de gebruiker ergens anders tikt, verdwijnt deze pop-up weer om het scherm overzichtelijk te houden.
-

@@ -59,7 +59,7 @@ export function BottomTabBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="glass-overlay shrink-0 border-t border-white/[0.06]">
+    <nav className="shrink-0 border-t border-neutral-800 bg-black">
       <div className="flex items-stretch justify-around px-2 pb-[env(safe-area-inset-bottom)] pt-1">
         {TABS.map((tab) => {
           const active = isActive(pathname, tab.href);
@@ -67,17 +67,16 @@ export function BottomTabBar() {
             <Link
               key={tab.href}
               href={tab.href}
-              className={`relative flex min-h-12 flex-1 flex-col items-center justify-center gap-1 rounded-xl px-2 py-1.5 transition-all duration-200 active:scale-95 active:opacity-70 ${
-                active ? "text-white" : "text-white/25"
+              className={`relative flex min-h-12 flex-1 flex-col items-center justify-center gap-1 rounded-lg px-2 py-1.5 transition-colors duration-150 active:opacity-70 ${
+                active ? "text-white" : "text-neutral-500"
               }`}
             >
               {tab.icon}
-              <span className={`text-[9px] font-bold uppercase tracking-widest ${active ? "text-white" : "text-white/25"}`}>
+              <span className={`text-[9px] font-semibold uppercase tracking-widest ${active ? "text-white" : "text-neutral-500"}`}>
                 {tab.label}
               </span>
-              {/* Active neon indicator dot */}
               {active && (
-                <span className="absolute bottom-1 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-cyan-400 shadow-[0_0_6px_2px_rgba(34,211,238,0.6)]" />
+                <span className="absolute bottom-1 left-1/2 h-0.5 w-4 -translate-x-1/2 rounded-full bg-emerald-400" />
               )}
             </Link>
           );

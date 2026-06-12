@@ -27,13 +27,11 @@ export function HeatmapLayer({
   return (
     <g className="heatmap-layer">
       <defs>
-        {/* Soft outer glow blur */}
         <filter id="heatBlur" x="-70%" y="-70%" width="240%" height="240%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="16" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="14" />
         </filter>
-        {/* Tighter core glow */}
         <filter id="heatCore" x="-40%" y="-40%" width="180%" height="180%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="7" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="6" />
         </filter>
       </defs>
 
@@ -41,8 +39,8 @@ export function HeatmapLayer({
         const zone = ZONE_MAP[point.activeZone];
         const progress = (index + 1) / trail.length;
         const intensity = point.pressureValue / 100;
-        const outerOpacity = progress * intensity * 0.55;
-        const coreOpacity = progress * intensity * 0.35;
+        const outerOpacity = progress * intensity * 0.4;
+        const coreOpacity = progress * intensity * 0.28;
         const color = teamColor(
           point.dominantTeam,
           match.homeColor,
@@ -59,17 +57,15 @@ export function HeatmapLayer({
               transition: TRANSITION,
             }}
           >
-            {/* Outer diffuse glow */}
             <ellipse
               cx={0}
               cy={0}
-              rx={rx * 1.4}
-              ry={ry * 1.4}
+              rx={rx * 1.35}
+              ry={ry * 1.35}
               fill={color}
-              opacity={outerOpacity * 0.5}
+              opacity={outerOpacity}
               filter="url(#heatBlur)"
             />
-            {/* Core hot spot */}
             <ellipse
               cx={0}
               cy={0}

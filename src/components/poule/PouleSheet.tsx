@@ -23,30 +23,30 @@ export function PouleSheet({ open, onClose }: PouleSheetProps) {
               key={member.userId}
               className={`flex items-center justify-between rounded-xl px-4 py-3 ${
                 member.isCurrentUser
-                  ? "bg-slate-800 ring-2 ring-cyan-400/50"
-                  : "bg-slate-800/50"
+                  ? "border border-emerald-400/40 bg-neutral-800"
+                  : "bg-neutral-900"
               }`}
             >
               <div className="flex items-center gap-3">
                 <span
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-slate-950"
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-black"
                   style={{ backgroundColor: member.avatarColor }}
                 >
                   {member.rank}
                 </span>
-                <span className="font-medium text-slate-100">
+                <span className="font-medium text-white">
                   {member.userName}
                   {member.isCurrentUser && (
-                    <span className="ml-2 text-xs text-cyan-400">(jij)</span>
+                    <span className="ml-2 text-xs text-emerald-400">(jij)</span>
                   )}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-slate-200">{member.points}</span>
+                <span className="tabular-nums font-bold text-white">{member.points}</span>
                 {member.isCurrentUser && (
                   <button
                     onClick={() => setEditOpen(true)}
-                    className="rounded-lg p-2 text-slate-400 transition-all hover:text-cyan-400 active:scale-95"
+                    className="rounded-lg p-2 text-neutral-500 transition-opacity active:opacity-70"
                     aria-label="Profiel bewerken"
                   >
                     ✏️

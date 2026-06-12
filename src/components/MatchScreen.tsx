@@ -12,14 +12,14 @@ export function MatchScreen() {
   if (loading) {
     return (
       <div className="flex h-full flex-col items-center justify-center gap-4 p-8">
-        <div className="h-8 w-8 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
-        <p className="text-sm text-slate-400">Wedstrijd laden...</p>
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-neutral-700 border-t-emerald-400" />
+        <p className="text-sm text-neutral-500">Wedstrijd laden...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full flex-col gap-1 pb-1">
       <MatchHeader />
       <RadarField />
       <LivePouleUpdate />

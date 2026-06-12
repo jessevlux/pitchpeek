@@ -5,15 +5,15 @@ import { useMatch } from "@/context/MatchContext";
 const STATUS_CONFIG = {
   pending: {
     label: "In afwachting",
-    className: "bg-amber-500/10 text-amber-400 ring-amber-500/25",
+    className: "bg-neutral-800 text-neutral-400",
   },
   correct: {
     label: (pts: number) => `+${pts} pnt`,
-    className: "bg-emerald-500/10 text-emerald-400 ring-emerald-500/25",
+    className: "bg-neutral-800 text-white",
   },
   incorrect: {
     label: "Mis",
-    className: "bg-red-500/10 text-red-400 ring-red-500/25",
+    className: "bg-neutral-800 text-neutral-500",
   },
 } as const;
 
@@ -52,11 +52,11 @@ export function MyPredictions() {
 
   if (items.length === 0) {
     return (
-      <div className="glass rounded-2xl px-5 py-8 text-center">
-        <p className="text-sm text-white/30">
+      <div className="rounded-xl bg-neutral-900 px-5 py-8 text-center">
+        <p className="text-sm text-neutral-500">
           Nog geen voorspellingen deze wedstrijd.
         </p>
-        <p className="mt-1 text-xs text-white/20">
+        <p className="mt-1 text-xs text-neutral-600">
           Ga naar Live en tik een zone bij de volgende spelhervatting.
         </p>
       </div>
@@ -75,18 +75,18 @@ export function MyPredictions() {
         return (
           <div
             key={item.id}
-            className="glass flex items-center justify-between rounded-2xl px-4 py-3.5"
+            className="flex items-center justify-between rounded-xl bg-neutral-900 px-4 py-3.5"
           >
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-bold text-white">
                 {item.label}
               </p>
-              <p className="tabular-nums text-xs text-white/30">
+              <p className="tabular-nums text-xs text-neutral-500">
                 {item.minute}&apos; · {item.predictedZoneLabel}
               </p>
             </div>
             <span
-              className={`ml-3 shrink-0 rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wide ring-1 ${cfg.className}`}
+              className={`ml-3 shrink-0 rounded-lg px-3 py-1 text-xs font-semibold uppercase tracking-wide ${cfg.className}`}
             >
               {label}
             </span>

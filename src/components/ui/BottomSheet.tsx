@@ -15,26 +15,23 @@ export function BottomSheet({ open, onClose, title, children }: BottomSheetProps
     <AnimatePresence>
       {open && (
         <>
-          {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm"
+            className="fixed inset-0 z-40 bg-black/80"
             onClick={onClose}
           />
-          {/* Sheet */}
           <motion.div
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ type: "spring", damping: 30, stiffness: 340 }}
-            className="glass-overlay fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 rounded-t-3xl p-5 pb-10 shadow-2xl"
+            className="fixed bottom-0 left-1/2 z-50 w-full max-w-md -translate-x-1/2 rounded-t-xl border-t border-neutral-800 bg-neutral-900 p-5 pb-10"
           >
-            {/* Drag handle */}
-            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-white/10" />
+            <div className="mx-auto mb-5 h-1 w-10 rounded-full bg-neutral-700" />
             {title && (
-              <h2 className="mb-5 text-lg font-black tracking-tight text-white">
+              <h2 className="mb-5 text-lg font-bold tracking-tight text-white">
                 {title}
               </h2>
             )}

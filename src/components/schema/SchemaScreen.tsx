@@ -28,7 +28,7 @@ export function SchemaScreen() {
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="h-7 w-7 animate-spin rounded-full border-2 border-cyan-400 border-t-transparent" />
+        <div className="h-7 w-7 animate-spin rounded-full border-2 border-neutral-700 border-t-emerald-400" />
       </div>
     );
   }
@@ -42,17 +42,16 @@ export function SchemaScreen() {
         subtitle={selectedDay?.label}
       />
 
-      {/* Day carousel */}
       <div className="mb-4 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar">
         {days.map((day) => (
           <button
             key={day.id}
             type="button"
             onClick={() => setSelectedDayId(day.id)}
-            className={`shrink-0 rounded-full px-4 py-2 text-xs font-bold uppercase tracking-wide transition-all duration-200 active:scale-95 ${
+            className={`shrink-0 rounded-lg px-4 py-2 text-xs font-semibold uppercase tracking-wide transition-opacity active:opacity-80 ${
               day.id === selectedDayId
-                ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.15)]"
-                : "glass text-white/40 hover:text-white/60"
+                ? "bg-white text-black"
+                : "bg-neutral-800 text-neutral-400"
             }`}
           >
             {day.label}
@@ -62,8 +61,8 @@ export function SchemaScreen() {
 
       <section className="space-y-3 px-5 pb-10">
         {matches.length === 0 ? (
-          <div className="glass rounded-2xl px-5 py-10 text-center">
-            <p className="text-sm text-white/30">Geen wedstrijden op deze dag.</p>
+          <div className="rounded-xl bg-neutral-900 px-5 py-10 text-center">
+            <p className="text-sm text-neutral-500">Geen wedstrijden op deze dag.</p>
           </div>
         ) : (
           matches.map((m) => <MatchCard key={m.id} match={m} />)

@@ -19,7 +19,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-  themeColor: "#030712",
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -29,8 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className={`${geistSans.variable} h-full dark`}>
-      <body className="flex min-h-full items-center justify-center bg-[#030712] antialiased">
-        <div className="flex h-dvh w-full max-w-md flex-col overflow-hidden bg-[#030712] shadow-[0_0_60px_rgba(0,0,0,0.8)]">
+      <body className="flex min-h-full items-center justify-center bg-neutral-800 antialiased">
+        <div className="flex h-dvh w-full max-w-md flex-col overflow-hidden bg-black">
           <AppProviders>{children}</AppProviders>
         </div>
       </body>

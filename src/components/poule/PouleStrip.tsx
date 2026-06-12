@@ -33,20 +33,20 @@ export function PouleStrip({ onOpen }: PouleStripProps) {
   return (
     <motion.button
       onClick={onOpen}
-      className="mx-4 mb-3 flex shrink-0 items-center justify-between rounded-xl bg-slate-900 px-4 py-3 transition-all duration-200 active:scale-[0.98]"
+      className="mx-4 mb-3 flex shrink-0 items-center justify-between rounded-xl bg-neutral-900 px-4 py-3 transition-opacity active:opacity-80"
     >
       <div className="flex items-center gap-3">
         <span
-          className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-slate-950"
+          className="flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold text-black"
           style={{ backgroundColor: currentUser.avatarColor }}
         >
           {currentUser.rank}
         </span>
         <div className="text-left">
-          <p className="text-sm font-bold text-slate-100">
+          <p className="text-sm font-bold text-white">
             {currentUser.userName}
           </p>
-          <p className="text-xs text-slate-400">Jouw poule</p>
+          <p className="text-xs text-neutral-500">Jouw poule</p>
         </div>
       </div>
 
@@ -55,17 +55,15 @@ export function PouleStrip({ onOpen }: PouleStripProps) {
           <motion.span
             initial={{ opacity: 0, y: delta === "up" ? 4 : -4 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`text-sm font-bold ${
-              delta === "up" ? "text-emerald-400" : "text-red-400"
-            }`}
+            className="text-sm font-bold text-neutral-400"
           >
             {delta === "up" ? "▲" : "▼"}
           </motion.span>
         )}
-        <span className="text-lg font-bold text-cyan-400">
+        <span className="tabular-nums text-lg font-bold text-white">
           {currentUser.points}
         </span>
-        <span className="text-xs text-slate-500">pnt</span>
+        <span className="text-xs text-neutral-500">pnt</span>
       </div>
     </motion.button>
   );

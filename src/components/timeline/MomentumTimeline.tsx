@@ -17,7 +17,6 @@ import { TimelineScrubber } from "./TimelineScrubber";
 
 const INSET = 10;
 
-/** SVG event markers — pure shapes, no emoji */
 function EventMarker({
   type,
   team,
@@ -34,48 +33,48 @@ function EventMarker({
   if (type === "doelpunt") {
     return (
       <>
-        <circle r={11} fill="#06080f" opacity={0.9} />
-        <circle r={7} fill={accent} opacity={0.9} />
-        <circle r={3} fill="white" opacity={0.9} />
+        <circle r={10} fill="#171717" />
+        <circle r={6} fill={accent} opacity={0.9} />
+        <circle r={2.5} fill="white" opacity={0.85} />
       </>
     );
   }
   if (type === "gele_kaart") {
     return (
       <>
-        <circle r={11} fill="#06080f" opacity={0.9} />
-        <rect x={-5} y={-7} width={10} height={14} rx={2} fill="#fbbf24" />
+        <circle r={10} fill="#171717" />
+        <rect x={-4} y={-6} width={8} height={12} rx={1} fill="#fbbf24" />
       </>
     );
   }
   if (type === "vrije_trap") {
     return (
       <>
-        <circle r={11} fill="#06080f" opacity={0.9} />
-        <circle r={7} fill="none" stroke="#22d3ee" strokeWidth={2} />
-        <circle r={2.5} fill="#22d3ee" />
+        <circle r={10} fill="#171717" />
+        <circle r={5} fill="none" stroke={accent} strokeWidth={1.5} opacity={0.9} />
       </>
     );
   }
   if (type === "hoekschop") {
     return (
       <>
-        <circle r={11} fill="#06080f" opacity={0.9} />
+        <circle r={10} fill="#171717" />
         <path
-          d="M-4,-4 L4,-4 L4,4"
+          d="M-3,-3 L3,-3 L3,3"
           fill="none"
-          stroke="#a78bfa"
-          strokeWidth={2}
+          stroke={accent}
+          strokeWidth={1.5}
           strokeLinecap="round"
           strokeLinejoin="round"
+          opacity={0.9}
         />
       </>
     );
   }
   return (
     <>
-      <circle r={9} fill="#06080f" opacity={0.9} />
-      <circle r={4} fill="rgba(255,255,255,0.5)" />
+      <circle r={8} fill="#171717" />
+      <circle r={3} fill={accent} opacity={0.7} />
     </>
   );
 }
@@ -97,7 +96,7 @@ export function MomentumTimeline() {
 
   const containerRef = useRef<HTMLDivElement>(null);
   const [chartSize, setChartSize] = useState({ width: 300, height: 144 });
-  const [displayMax, setDisplayMax] = useState(APP_CONFIG.START_MINUTE);
+  const [displayMax, setDisplayMax] = useState<number>(APP_CONFIG.START_MINUTE);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -156,12 +155,11 @@ export function MomentumTimeline() {
 
   return (
     <div className="relative mx-4 mb-4 mt-3 shrink-0">
-      {/* Section label */}
       <div className="mb-2 flex items-center justify-between px-0.5">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-white/30">
+        <span className="text-xs font-semibold uppercase tracking-widest text-neutral-500">
           Aanvalsdruk
         </span>
-        <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-widest">
+        <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-widest">
           <span style={{ color: match.homeColor }}>▲ {match.homeTeam}</span>
           <span style={{ color: match.awayColor }}>▼ {match.awayTeam}</span>
         </div>
@@ -169,7 +167,7 @@ export function MomentumTimeline() {
 
       <div
         ref={containerRef}
-        className="relative h-36 overflow-hidden rounded-2xl border border-white/[0.05] bg-[#06080f] shadow-[0_2px_20px_rgba(0,0,0,0.5)]"
+        className="relative h-36 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-900"
         onClick={() => activeEvent && setActiveEvent(null)}
       >
         {!isFollowingLive && <LivePill onClick={snapToLive} />}
@@ -180,23 +178,13 @@ export function MomentumTimeline() {
             margin={{ top: INSET, right: INSET, bottom: INSET, left: INSET }}
           >
             <defs>
-              {/* Home gradients */}
-              <linearGradient id="homeGlow" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={match.homeColor} stopOpacity={0.25} />
+              <linearGradient id="homeGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={match.homeColor} stopOpacity={0.3} />
                 <stop offset="100%" stopColor={match.homeColor} stopOpacity={0} />
               </linearGradient>
-              <linearGradient id="homeGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={match.homeColor} stopOpacity={0.5} />
-                <stop offset="100%" stopColor={match.homeColor} stopOpacity={0.02} />
-              </linearGradient>
-              {/* Away gradients */}
-              <linearGradient id="awayGlow" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor={match.awayColor} stopOpacity={0.25} />
-                <stop offset="100%" stopColor={match.awayColor} stopOpacity={0} />
-              </linearGradient>
               <linearGradient id="awayGradient" x1="0" y1="1" x2="0" y2="0">
-                <stop offset="0%" stopColor={match.awayColor} stopOpacity={0.5} />
-                <stop offset="100%" stopColor={match.awayColor} stopOpacity={0.02} />
+                <stop offset="0%" stopColor={match.awayColor} stopOpacity={0.3} />
+                <stop offset="100%" stopColor={match.awayColor} stopOpacity={0} />
               </linearGradient>
             </defs>
 
@@ -208,47 +196,43 @@ export function MomentumTimeline() {
               allowDataOverflow
             />
             <YAxis hide domain={[-100, 100]} />
-            <ReferenceLine y={0} stroke="rgba(255,255,255,0.06)" strokeWidth={1} />
+            <ReferenceLine y={0} stroke="rgba(255,255,255,0.08)" strokeWidth={1} />
 
-            {/* Glow layer — thick stroke at low opacity for neon spread */}
             <Area
               type="monotone"
               dataKey="home"
               baseValue={0}
               stroke={match.homeColor}
-              strokeWidth={7}
-              strokeOpacity={0.18}
+              strokeWidth={5}
+              strokeOpacity={0.12}
               fill="none"
               isAnimationActive={false}
             />
-            {/* Main home curve */}
             <Area
               type="monotone"
               dataKey="home"
               baseValue={0}
               stroke={match.homeColor}
-              strokeWidth={2}
+              strokeWidth={1.5}
               fill="url(#homeGradient)"
               isAnimationActive={false}
             />
-            {/* Glow layer for away */}
             <Area
               type="monotone"
               dataKey="away"
               baseValue={0}
               stroke={match.awayColor}
-              strokeWidth={7}
-              strokeOpacity={0.18}
+              strokeWidth={5}
+              strokeOpacity={0.12}
               fill="none"
               isAnimationActive={false}
             />
-            {/* Main away curve */}
             <Area
               type="monotone"
               dataKey="away"
               baseValue={0}
               stroke={match.awayColor}
-              strokeWidth={2}
+              strokeWidth={1.5}
               fill="url(#awayGradient)"
               isAnimationActive={false}
             />
@@ -263,7 +247,6 @@ export function MomentumTimeline() {
           onScrub={setViewMinute}
         />
 
-        {/* Event markers — pure SVG shapes, no emoji */}
         <svg
           className="pointer-events-none absolute inset-0 h-full w-full"
           viewBox={`0 0 ${chartSize.width} ${chartSize.height}`}
@@ -289,7 +272,6 @@ export function MomentumTimeline() {
                   key={event.id}
                   transform={`translate(${x}, ${y})`}
                   className="pointer-events-auto cursor-pointer"
-                  style={{ transition: "opacity 200ms" }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setViewMinute(event.minute);

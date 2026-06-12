@@ -21,12 +21,9 @@ export function RadarField() {
   const canSelect = pred.phase === "open" && !pred.selectedZone;
 
   return (
-    <div className="relative mx-4 mt-3 flex flex-1 flex-col overflow-hidden rounded-2xl border border-white/[0.06] bg-[#06080f] shadow-[0_4px_40px_rgba(0,0,0,0.6)]">
-      {/* Subtle ambient glow at top */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-24 rounded-t-2xl bg-gradient-to-b from-white/[0.015] to-transparent" />
-
+    <div className="relative mx-4 mt-3 flex flex-1 flex-col overflow-hidden rounded-xl bg-neutral-900">
       {isPredictionActive && (
-        <div className="pointer-events-none absolute inset-0 z-10 bg-black/30" />
+        <div className="pointer-events-none absolute inset-0 z-10 bg-black/40" />
       )}
 
       <PredictionOverlay
@@ -40,16 +37,10 @@ export function RadarField() {
         className="h-full w-full"
         preserveAspectRatio="xMidYMid meet"
       >
-        <defs>
-          <linearGradient id="pitchGradient" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#06080f" />
-            <stop offset="100%" stopColor="#0a0d18" />
-          </linearGradient>
-        </defs>
         <rect
           width={PITCH_DIMENSIONS.width}
           height={PITCH_DIMENSIONS.height}
-          fill="url(#pitchGradient)"
+          fill="#171717"
         />
         <HeatmapLayer
           match={match}
