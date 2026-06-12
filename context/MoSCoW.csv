@@ -1,0 +1,45 @@
+﻿Categorie;Must have;Should have;Could have;Won't have
+Functionele eisen;"•  De interface toont een dynamisch radarveld waarop actieve zones visueel oplichten.
+
+•  De applicatie toont een vloeiende tijdlijn met een grafiek die de actuele aanvalsdruk weergeeft.
+
+•  De gebruiker kan een zone op het radarveld aantikken om een snelle voorspelling te doen voor een spelhervatting.
+
+•  Gebruikers moeten hun eigen profielgegevens kunnen bewerken.";"•  De gebruiker kan horizontaal door de tijdlijn scrollen, waarbij het radarveld zich aanpast naar dat specifieke moment.
+
+•  De gebruiker kan op een hoge piek in de momentum grafiek tikken om een kleine, tijdelijke pop-up te openen met de gebeurtenis (bijv. 'Doelpunt' of 'Gele kaart').";•  De applicatie toont direct in het hoofdscherm de actuele stand van een gesimuleerde vriendenpoule.;"•  Het prototype bevat geen inlogscherm, accountcreatie of wachtwoordherstel.
+
+•  De gebruiker kan geen algemene voorwaarden, instellingen of profielpagina's openen."
+Usability en Design;"•  Het ontwerp is uitsluitend 'mobile-first' opgebouwd.
+
+•  De interface gebruikt een donker thema met hoog contrast (bijv. felle accentkleuren) om de scanbaarheid te garanderen.
+
+•  Er is geen sprake van complexe tabellen; data wordt gevisualiseerd in vormen en kleuren.";"•  De klikbare zones op het radarveld zijn groot genoeg om blindelings met één duim te bedienen.
+
+•  De interface geeft duidelijke en snelle visuele feedback (zoals een oplichtend effect) wanneer de gebruiker een voorspelling doet.";"•  Ondersteuning voor een 'Dark mode' weergave.
+
+•  Subtiele animaties bij pagina-overgangen voor een soepele ervaring.
+ ";"•  Het ontwerp bevat geen verborgen navigatiemenu's (zoals een hamburgermenu) of complexe onboarding flows.
+
+•  De interface maakt geen gebruik van kleine lettertypes of lappen tekst."
+Data en Content;"•  Een actuele (gesimuleerde) speeltijd in minuten en een live tussenstand.
+
+•  Een vaste dataset met procentuele aanvalsdruk om de momentum grafiek te vullen.
+
+•  Een dataset met 'actieve zones' om het radarveld te laten reageren op de tijdlijn.";"•  Korte labels bij de pieken in de grafiek (bijv. speler en actie) voor de detail pop-ups.
+
+•  Een kleine dataset met fictieve pouledeelnemers en scores om de ranglijst te simuleren.";•  Dynamische teamkleuren op basis van de twee landen in de mock-data.;"•  Real-time API koppelingen met echte dataleveranciers (alles mag hardcoded mock-data zijn).
+
+•  Cookie-meldingen, privacy statements of GDPR pop-ups."
+Technische eisen;"•  Het prototype wordt gebouwd met Next.js en Tailwind CSS voor een snelle iteratie.
+
+•  Er wordt uitsluitend gefocust op de front-end weergave, geschikt voor een mobiele browser.
+
+•  Gebruik van AI tooling (zoals Cursor) om componenten efficiënt te genereren.";"•  Het gebruik van een betrouwbare library (zoals Recharts of Chart.js) om de grafiek soepel op mobiel te laten werken.
+
+•  Code schrijven in TypeScript om de structuur van de mock-data strikt te houden.
+
+•  De architectuur moet schaalbaar zijn om toekomstige groei aan te kunnen.
+";•  Het prototype live hosten via Vercel, zodat testpersonen het op hun eigen smartphone kunnen openen.;"•  Het prototype krijgt geen echte backend of database architectuur.
+
+•  Er worden geen authenticatie providers (zoals Auth0 of Firebase) geïmplementeerd."
